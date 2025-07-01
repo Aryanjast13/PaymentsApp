@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { Appbar } from '../components/Appbar'
 import { Balance } from '../components/Balance'
 import { Users } from '../components/Users'
-import axios from 'axios'
 
 const Dashboard = () => {
   const [balance, setBalance] = useState(0);
@@ -27,7 +27,7 @@ const Dashboard = () => {
   return (
     <div className='p-4 bg-gray-900  text-slate-200 h-dvh'>
       <Appbar />
-      <Balance value={balance} />
+      <Balance value={balance}  />
       <Users/>
     </div>
   )

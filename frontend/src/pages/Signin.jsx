@@ -1,15 +1,15 @@
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { BottomWarning } from "../components/BottomWarning";
 import { Button } from "../components/Button";
 import { Heading } from "../components/Heading";
 import { InputBox } from "../components/InputBox";
 import { SubHeading } from "../components/SubHeading";
-import axios from "axios";
-import { useNavigate } from "react-router";
 
 export const Signin = () => {
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUserName] = useState("rahul@gmail.com");
+  const [password, setPassword] = useState("Rahul@123");
   const navigate = useNavigate();
 
 
@@ -27,7 +27,6 @@ export const Signin = () => {
               const res = await axios.post("http://localhost:3800/api/v1/user/signin", { username, password });
               localStorage.setItem("token", res.data.token)
               navigate("/dashboard");
-              
             }} />
           </div>
           <BottomWarning

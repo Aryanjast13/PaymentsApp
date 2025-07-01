@@ -1,4 +1,4 @@
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 export const Appbar = () => {
   const navigate=useNavigate()
@@ -8,7 +8,7 @@ export const Appbar = () => {
       <div className="flex gap-2">
         <button className=" bg-gray-700 hover:bg-gray-800 rounded-xl px-4 my-2" onClick={() => {
           localStorage.removeItem("token");
-          navigate("/")
+          navigate("/signin")
         }
         }>Lotgout</button>
         <div className="rounded-full h-10 w-10 bg-slate-200 flex justify-center mt-1 mr-2">

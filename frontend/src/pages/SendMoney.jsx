@@ -66,7 +66,9 @@ const SendMoney = () => {
                     );
                     if (res.data.message == "Transfer successful") {
                       alert("money send successfull");
+                      
                     }
+                   
                   }}
                 >
                   Initiate Transfer

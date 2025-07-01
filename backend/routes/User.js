@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = require('../config');
 const User = require('../models/User');
 const Account = require('../models/account');
+const authMiddleware = require('../middlewares/middleware');
 
 const router = express.Router();
 
@@ -52,6 +53,8 @@ router.post("/signup", async (req, res) => {
         res.json({
             message: "User created successfully",
             token,
+            username: user.firstName,
+            lastName:user.lastName
         });
 
         
@@ -81,7 +84,8 @@ router.post("/signin", async (req, res) => {
          const user =await User.findOne({ username, password });
          if (user) {
            const token = jwt.sign({ userId: user._id }, JWT_SECRET);
-           res.json({ token });
+           res.json({ token ,username: user.firstName,
+            lastName:user.lastName});
            return;
         }
         
@@ -94,6 +98,14 @@ router.post("/signin", async (req, res) => {
    
 });
 
+router.post("/checkAuth", authMiddleware,async (req, res) => {
+    const id = req.userId;
+
+    const user = await User.findById(id).select("-password");
+    res.json({ user });
+    
+}
+)
 
 router.get("/bulk", async (req, res) => {
     const filter = req.query.filter || "";

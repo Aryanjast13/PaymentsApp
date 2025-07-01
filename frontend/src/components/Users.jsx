@@ -1,24 +1,31 @@
-import { useEffect, useState } from "react";
-import { Button } from "./Button";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { Button } from "./Button";
 
 export const Users = () => {
   // Replace with backend call
   const [users, setUsers] = useState([]);
   const [filter,setFilter] =useState("")
     
-    const fetchUser = async () => {
-        const res = await axios.get("http://localhost:3800/api/v1/user/bulk?filter="+filter);
+  const fetchUser = async () => {
+    try {
+        const res = await axios.get(`http://localhost:3800/api/v1/user/bulk?filter=${filter}`);
         setUsers(res.data.User);
-        console.log(users)
-        console.log(res.data);
+    } catch (error) {
+        console.error("Error fetching users:", error);
     }
-    
-     
+};
+  
     
         useEffect(() => {
-            fetchUser();
+          const delayDebounce = setTimeout(() => {
+            if (filter !== '') {
+                fetchUser();
+            }
+        }, 500); // delay of 500ms
+
+        return () => clearTimeout(delayDebounce);
 
         }, [filter]);
 
