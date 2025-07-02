@@ -10,7 +10,7 @@ const mainRouter = require('./routes/index');
 const app = express();
 console.log(process.env.CLIENT_URL);
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin:"*",
     credentials:true,
 })); // using cors to give access our frontend 
 app.use(cookieParser())
