@@ -10,8 +10,8 @@ import { userStore } from "../store/userStore";
 
 export const Signin = () => {
   const {setToken} = userStore()
-  const [username, setUserName] = useState("rahul@gmail.com");
-  const [password, setPassword] = useState("Rahul@123");
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
 
