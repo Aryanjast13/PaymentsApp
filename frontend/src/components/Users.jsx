@@ -23,11 +23,18 @@ export const Users = () => {
             if (filter !== '') {
                 fetchUser();
             }
-        }, 500); // delay of 500ms
+          }, 500); // delay of 500ms
+          
+        
 
         return () => clearTimeout(delayDebounce);
 
         }, [filter]);
+  
+  useEffect(() => {
+    fetchUser()
+  },[])
+  
 
   return (
     <>

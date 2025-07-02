@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
+import axiosInstance from "./lib/api";
 import Dashboard from "./pages/Dashboard";
 import Layout from "./pages/Layout";
 import SendMoney from "./pages/SendMoney";
@@ -13,8 +13,8 @@ function App() {
   
 
   const fetchUser = async () => {
-    const res = await axios.post(
-      "http://localhost:3800/api/v1/user/checkAuth",{},
+    const res = await axiosInstance.post(
+      "/user/checkAuth",{},
       {
         headers: {
           Authorization:

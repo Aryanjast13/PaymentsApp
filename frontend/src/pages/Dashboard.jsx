@@ -1,14 +1,14 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Appbar } from '../components/Appbar'
 import { Balance } from '../components/Balance'
 import { Users } from '../components/Users'
+import axiosInstance from '../lib/api'
 
 const Dashboard = () => {
   const [balance, setBalance] = useState(0);
   const fetchBalance = async () => {
-    const res = await axios.get(
-      "http://localhost:3800/api/v1/account/balance",
+    const res = await axiosInstance.get(
+      "/account/balance",
       {
         headers: {
           authorization:

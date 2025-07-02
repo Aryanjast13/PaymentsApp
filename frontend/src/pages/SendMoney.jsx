@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import axiosInstance from "../lib/api";
 
 const SendMoney = () => {
   const [searchParams] = useSearchParams();
@@ -51,8 +51,8 @@ const SendMoney = () => {
                 <button
                   className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white"
                   onClick={async () => {
-                    const res = await axios.post(
-                      "http://localhost:3800/api/v1/account/transfer",
+                    const res = await axiosInstance.post(
+                      "/account/transfer",
                       {
                         to: id,
                         amount,
