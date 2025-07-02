@@ -111,6 +111,17 @@ router.post("/signin", async (req, res) => {
    
 });
 
+router.post("/logout", async (req, res) => {
+    try {
+        res.clearCookie("token");
+        res.json({ message: "Logged out successfully","token":false })
+    } catch (error) {
+        console.log("Error in logout controller", error.message);
+        res.status(500).json({})
+    }
+  
+});
+
 router.post("/checkAuth", authMiddleware,async (req, res) => {
     const id = req.userId;
 
@@ -120,7 +131,7 @@ router.post("/checkAuth", authMiddleware,async (req, res) => {
 }
 )
 
-router.get("/bulk", async (req, res) => {
+router.get("/bulk",authMiddleware, async (req, res) => {
     const filter = req.query.filter || "";
 
     try {

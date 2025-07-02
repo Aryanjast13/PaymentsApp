@@ -10,6 +10,9 @@ export const userStore = create((set,get) => ({
     },
     setToken: () => {
         set({ token: true });
+    },
+    setTokenFalse: () => {
+        set({ token: false });
     }
 
 }))
