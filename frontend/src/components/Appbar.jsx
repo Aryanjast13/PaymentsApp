@@ -4,7 +4,7 @@ export const Appbar = () => {
   const navigate=useNavigate()
   return (
     <div className="shadow border-b border-b-gray-800 pb-2  h-14 flex justify-between">
-      <div className="flex flex-col justify-center h-full ml-4">PayTM App</div>
+      <div className="flex flex-col justify-center h-full ml-4 font-bold text-xl">PayFlow</div>
       <div className="flex gap-2">
         <button className=" bg-gray-700 hover:bg-gray-800 rounded-xl px-4 my-2" onClick={() => {
           localStorage.removeItem("token");
