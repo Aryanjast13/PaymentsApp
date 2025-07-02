@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 import { BottomWarning } from "../components/BottomWarning";
 import { Button } from "../components/Button";
 import { Heading } from "../components/Heading";
 import { InputBox } from "../components/InputBox";
 import { SubHeading } from "../components/SubHeading";
-import axios from "axios";
-import { useNavigate } from "react-router";
+import axiosInstance from "../lib/api";
 
 export const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -17,15 +17,16 @@ export const Signup = () => {
 
   const postData = async () => {
     
-    const res = await axios.post("http://localhost:3800/api/v1/user/signup", {
+    const res = await axiosInstance.post("/user/signup", {
       firstName,
       lastName,
       username,
       password
     });                                                                 
-    console.log(res);
-    localStorage.setItem("token", res.data.token);
-    navigate("/dashboard");
+    if (res.data.user) {
+      setToken();
+      navigate("/dashboard");
+    }
   }
 
   return (

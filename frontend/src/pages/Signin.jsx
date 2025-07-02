@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { BottomWarning } from "../components/BottomWarning";
@@ -6,8 +5,11 @@ import { Button } from "../components/Button";
 import { Heading } from "../components/Heading";
 import { InputBox } from "../components/InputBox";
 import { SubHeading } from "../components/SubHeading";
+import axiosInstance from "../lib/api";
+import { userStore } from "../store/userStore";
 
 export const Signin = () => {
+  const {setToken} = userStore()
   const [username, setUserName] = useState("rahul@gmail.com");
   const [password, setPassword] = useState("Rahul@123");
   const navigate = useNavigate();
@@ -24,15 +26,17 @@ export const Signin = () => {
           <div className="pt-4">
             <Button label={"Sign in"} onClick={async () => {
               console.log("sigin clicked");
-              const res = await axios.post("http://localhost:3800/api/v1/user/signin", { username, password });
-              localStorage.setItem("token", res.data.token)
-              navigate("/dashboard");
+              const res = await axiosInstance.post("/user/signin", { username, password });
+              if (res.data.user) {
+                setToken();
+                navigate("/dashboard");
+              }
             }} />
           </div>
           <BottomWarning
             label={"Don't have an account?"}
             buttonText={"Sign up"}
-            to={"/signup"}
+            to={"/"}
           />
         </div>
       </div>

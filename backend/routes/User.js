@@ -49,10 +49,16 @@ router.post("/signup", async (req, res) => {
             balance: 1 + Math.random() * 10000
         })
         //creating a jwt token
-        const token = jwt.sign({ userId }, JWT_SECRET);
+        const token = jwt.sign({ userId }, JWT_SECRET,{expiresIn:"7d"});
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV = "production",
+             sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            maxAge:7 * 24 * 60 * 60 * 1000,
+        })
         res.json({
             message: "User created successfully",
-            token,
+            user:true,
             username: user.firstName,
             lastName:user.lastName
         });
@@ -81,10 +87,17 @@ router.post("/signin", async (req, res) => {
         
          const { username, password } = req.body;
          //finding user in database
-         const user =await User.findOne({ username, password });
+        const user = await User.findOne({ username, password });
+        const userId = user._id
          if (user) {
-           const token = jwt.sign({ userId: user._id }, JWT_SECRET);
-           res.json({ token ,username: user.firstName,
+            const token = jwt.sign({ userId }, JWT_SECRET,{expiresIn:"7d"});
+            res.cookie("token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV = "production",
+                sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+                maxAge:7 * 24 * 60 * 60 * 1000,
+            })
+           res.json({user:true, username: user.firstName,
             lastName:user.lastName});
            return;
         }
@@ -102,7 +115,7 @@ router.post("/checkAuth", authMiddleware,async (req, res) => {
     const id = req.userId;
 
     const user = await User.findById(id).select("-password");
-    res.json({ user });
+    res.json({ user ,"token":true});
     
 }
 )

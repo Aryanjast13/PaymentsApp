@@ -57,12 +57,6 @@ const SendMoney = () => {
                         to: id,
                         amount,
                       },
-                      {
-                        headers: {
-                          Authorization:
-                            "Bearer " + localStorage.getItem("token"),
-                        },
-                      }
                     );
                     if (res.data.message == "Transfer successful") {
                       alert("money send successfull");

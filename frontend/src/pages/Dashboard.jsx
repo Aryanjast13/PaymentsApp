@@ -9,12 +9,6 @@ const Dashboard = () => {
   const fetchBalance = async () => {
     const res = await axiosInstance.get(
       "/account/balance",
-      {
-        headers: {
-          authorization:
-            "Bearer "+localStorage.getItem("token")
-        },
-      }
     );
     setBalance(Math.floor(res.data.balance));
    

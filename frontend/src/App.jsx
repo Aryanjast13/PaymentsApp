@@ -1,27 +1,20 @@
 import { useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import axiosInstance from "./lib/api";
 import Dashboard from "./pages/Dashboard";
-import Layout from "./pages/Layout";
 import SendMoney from "./pages/SendMoney";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import { userStore } from "./store/userStore";
 
 function App() {
-  const { setUser } = userStore();
+  const { setUser,setToken ,token} = userStore();
   
 
   const fetchUser = async () => {
     const res = await axiosInstance.post(
       "/user/checkAuth",{},
-      {
-        headers: {
-          Authorization:
-            "Bearer "+localStorage.getItem("token")
-        },
-      }
-    );
+    );22
     const data = res.data.user;
     console.log(data)
     const user = {
@@ -29,11 +22,12 @@ function App() {
       lastname:data.lastName
     }
     setUser(user);
+    if (res.data.token) {
+      setToken()
+    }
   }
 
   useEffect(() => {
-   
-
     fetchUser()
    },[])
 
@@ -41,13 +35,11 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          
-         
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
-          <Route path="/sendMoney" element={<Layout><SendMoney /></Layout>} />
+        <Routes> 
+          <Route path="/" element={ token?<Navigate to="/dashboard" />:<Signup />} />
+          <Route path="/signin" element={ token?<Navigate to="/dashboard" />: <Signin />} />
+          <Route path="/dashboard" element={token?<Dashboard />:<Navigate to="/" />} />
+          <Route path="/sendMoney" element={token?<SendMoney />:<Navigate to="/" />} />
           
           
           

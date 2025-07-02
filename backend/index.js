@@ -1,13 +1,18 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const cookieParser=require('cookie-parser')
 const connectDB = require('./db');
 const mainRouter = require('./routes/index');
 
 
 
 const app = express();
-app.use(cors()); // using cors to give access our frontend 
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials:true,
+})); // using cors to give access our frontend 
+app.use(cookieParser())
 app.use(express.json());    //parsing the json data
 
 

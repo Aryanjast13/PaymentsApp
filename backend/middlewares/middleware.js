@@ -3,17 +3,13 @@ const jwt = require("jsonwebtoken")
 
 
 const authMiddleware = (req, res, next) => {
-    const authHeader = req.headers.authorization;
+    const token = req.cookies.token;
   
-
-     
     //checking token is present and starting with "Bearer "
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        res.status(403).json({ message: "token is not valid" });
-        return;
+    if (!token) {
+        return res.status(401).json({ message: "Unauthorized - No access token provided" });
     }
-
-    const token = authHeader.split(" ")[1];
+             
 
     try { 
         const decoded = jwt.verify(token, JWT_SECRET);
